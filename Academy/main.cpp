@@ -59,6 +59,10 @@ public:
 		cout << last_name << " " << first_name << " " << age << " y/o\n";
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << " лет ";
+}
 
 #define STUDENT_TAKE_PARAMETERS const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS speciality, group, rating, attendance
@@ -125,6 +129,10 @@ public:
 		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Student& obj)
+{
+	return os << (Human&)obj << obj.get_speciality() << " " << obj.get_group() << " " << obj.get_rating() << " " << obj.get_attendance() << " ";
+}
 
 #define TEACHER_TAKE_PARAMETERS const std::string& speciality, int experience
 #define TEACHER_GIVE_PARAMETERS speciality, experience
@@ -171,6 +179,10 @@ public:
 		cout << speciality << " " << experience << " years\n";
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Teacher& obj)
+{
+	return os << (Human&)obj << obj.get_speciality() << " " << obj.get_experience() << " ";
+}
 
 class Graduate :public Student
 {
@@ -205,9 +217,9 @@ public:
 		cout << subject << endl;
 	}
 };
-std::ostream& operator<<(std::ostream& os, const Human& obj)
+std::ostream& operator<<(std::ostream& os, const Graduate& obj)
 {
-	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << " лет";
+	return os << (Student&)obj << obj.get_subject();
 }
 
 //#define INHERITANCE_CHECK
@@ -256,7 +268,10 @@ void print(Human* group[], const int n)
 	for (int i = 0; i < n; i++)
 	{
 		//group[i]->print();
-		cout << *group[i];
+		cout << typeid(*group[i]).name() << endl;
+		if (typeid(*group[i]) == typeid(Student))cout << *dynamic_cast<Student*>(group[i]);
+		if (typeid(*group[i]) == typeid(Teacher))cout << *dynamic_cast<Teacher*>(group[i]);
+		if (typeid(*group[i]) == typeid(Graduate))cout << *dynamic_cast<Graduate*>(group[i]);
 		cout << delimiter;
 	}
 }
