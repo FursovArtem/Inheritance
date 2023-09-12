@@ -39,4 +39,34 @@ void main()
 	else std::cerr << "Error: file not found" << endl;
 #endif // READ_FROM_FILE
 
+	// 1
+	std::ifstream fin("201 RAW.txt");
+	const int size = 24;
+	std::string array[size];
+	for (int i = 0; i < size; i++)
+	{
+		fin >> (i % 2 ? array[i - 1] : array[i + 1]);
+	}
+	fin.close();
+	std::ofstream fout("201 ready.txt");
+	for (int i = 0; i < size; i++)
+	{
+		fout << array[i] << "\t";
+		if (i % 2)fout << endl;
+	}
+	fout.close();
+
+	system("notepad 201 ready.txt");
+
+
+	// 2
+	fout.open("201.dhcpd");
+	for (int i = 0, j = 0; i < size / 2; i++)
+	{
+		fout << "host 201-" << i + 1 << "\n{\n\thardware ethernet\t" << array[j++];
+		fout << ";\n\tfixed-adress\t\t" << array[j++] << ";\n}\n" << endl;
+	}
+	fout.close();
+
+	system("notepad 201.dhcpd");
 }
