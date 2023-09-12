@@ -203,7 +203,7 @@ public:
 	// Methods:
 	std::ostream& print(std::ostream& os)const
 	{
-		return Student::print(os) << subject << endl;
+		return Student::print(os) << " " << subject << endl;
 	}
 };
 
