@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using std::cout;
 using std::endl;
 
@@ -47,7 +48,7 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
@@ -186,7 +187,7 @@ public:
 	}
 
 	// Constructors:
-	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, const std::string& subject) 
+	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, const std::string& subject)
 		:Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS)
 	{
 		set_subject(subject);
@@ -204,8 +205,15 @@ public:
 		cout << subject << endl;
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << " лет";
+}
 
 //#define INHERITANCE_CHECK
+
+void print(Human* group[], const int n);
+void save(Human* group[], const int n, const char sz_filename[]);
 
 void main()
 {
@@ -229,12 +237,32 @@ void main()
 	{
 		new Student("Pinkman", "Jessie", 22, "Chemistry", "WW_220", 90, 95),
 		new Teacher("White", "Walter", 50, "Chemistry", 20),
-		new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 80, 70, "How to catch Heisenberg")
+		new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 80, 70, "How to catch Heisenberg"),
+		new Student("Vercetti", "Thomas", 30, "Theft", "Vice", 98, 99),
+		new Teacher("Diaz", "Ricardo", 50, "Weapons distribution", 25)
 	};
 	cout << delimiter;
+	print(group, sizeof(group) / sizeof(group[0]));
+
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
-		group[i]->print();
+		delete group[i];
+	}
+}
+
+void print(Human* group[], const int n)
+{
+	cout << delimiter;
+	for (int i = 0; i < n; i++)
+	{
+		//group[i]->print();
+		cout << *group[i];
 		cout << delimiter;
 	}
+}
+void save(Human* group[], const int n, const char sz_filename[])
+{
+	std::fstream fout(sz_filename);
+
+	fout.close();
 }
