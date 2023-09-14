@@ -212,7 +212,6 @@ public:
 
 void print(Human* group[], const int n);
 void save(Human* group[], const int n, const char sz_filename[]);
-char* load(const char sz_filename[]);
 
 void main()
 {
@@ -244,7 +243,6 @@ void main()
 	print(group, sizeof(group) / sizeof(group[0]));
 	const char sz_filename[10] = "group.txt";
 	save(group, sizeof(group) / sizeof(group[0]), sz_filename);
-	char* res = load(sz_filename);
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
@@ -270,16 +268,4 @@ void save(Human* group[], const int n, const char sz_filename[])
 		fout << *group[i] << endl;
 	}
 	fout.close();
-}
-char* load(const char sz_filename[])
-{
-	std::ifstream fin(sz_filename);
-	char* result = new char[sizeof(sz_filename) / sizeof(sz_filename[0])];
-	int i = 0;
-	while (!fin.eof())
-	{
-		fin >> result[i++];
-	}
-	fin.close();
-	return result;
 }
