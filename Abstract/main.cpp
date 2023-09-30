@@ -379,21 +379,89 @@ public:
 	}
 };
 
+class RightTriangle :public Triangle
+{
+private:
+	double side_a;
+	double side_b;
+public:
+	double get_side_a()const
+	{
+		return side_a;
+	}
+	double get_side_b()const
+	{
+		return side_b;
+	}
+	void set_side_a(double side_a)
+	{
+		if (side_a < MIN_DIMENSION) side_a = MIN_DIMENSION;
+		if (side_a > MAX_DIMENSION) side_a = MAX_DIMENSION;
+		this->side_a = side_a;
+	}
+	void set_side_b(double side_b)
+	{
+		if (side_b < MIN_DIMENSION) side_b = MIN_DIMENSION;
+		if (side_b > MAX_DIMENSION) side_b = MAX_DIMENSION;
+		this->side_b = side_b;
+	}
+	double get_hypotenuse()const
+	{
+		return sqrt(pow(side_a, 2) + pow(side_b, 2));
+	}
+	double get_height()const override
+	{
+		return side_a * side_b / get_hypotenuse();
+	}
+	double get_area()const override
+	{
+		return side_a * side_b / 2;
+	}
+	double get_perimeter()const override
+	{
+		return side_a + side_b + get_hypotenuse();
+	}
+	void draw()const override
+	{
+		POINT vertex[] =
+		{
+			{start_x, start_y},
+			{start_x, start_y + side_a},
+			{start_x + side_b, start_y}
+		};
+		Triangle::draw(::Polygon, vertex);
+	}
+	RightTriangle(double side_a, double side_b, SHAPE_TAKE_PARAMETERS) :Triangle(SHAPE_GIVE_PARAMETERS)
+	{
+		set_side_a(side_a);
+		set_side_b(side_b);
+	}
+	~RightTriangle() {}
+	void info()const
+	{
+		cout << typeid(*this).name() << endl;
+		cout << "Катет A: " << get_side_a() << endl;
+		cout << "Катет B: " << get_side_b() << endl;
+		cout << "Гипотенуза: " << get_hypotenuse() << endl;
+		Triangle::info();
+	}
+};
+
 void main()
 {
 	setlocale(LC_ALL, "");
 	Square square(150, Color::red, 300, 10, 5);
 	square.info();
-	cout << delimiter;
 
 	class Rectangle rect(250, 150, Color::blue, 300, 210, 5);
 	rect.info();
-	cout << delimiter;
 
 	Circle circle(100, yellow, 600, 10, 5);
 	circle.info();
-	cout << delimiter;
 
 	EquilateralTriangle et(150, Color::green, 600, 250, 15);
 	et.info();
+
+	RightTriangle rt(75, 105, Color::purple, 800, 200, 10);
+	rt.info();
 }
