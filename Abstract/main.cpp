@@ -427,7 +427,7 @@ public:
 		{
 			{start_x, start_y},
 			{start_x, start_y + side_a},
-			{start_x + side_b, start_y}
+			{start_x + side_b, start_y + side_a}
 		};
 		Triangle::draw(::Polygon, vertex);
 	}
@@ -452,16 +452,20 @@ void main()
 	setlocale(LC_ALL, "");
 	Square square(150, Color::red, 300, 10, 5);
 	square.info();
+	cout << delimiter;
 
 	class Rectangle rect(250, 150, Color::blue, 300, 210, 5);
 	rect.info();
+	cout << delimiter;
 
-	Circle circle(100, yellow, 600, 10, 5);
+	Circle circle(100, Color::yellow, 600, 10, 5);
 	circle.info();
+	cout << delimiter;
 
 	EquilateralTriangle et(150, Color::green, 600, 250, 15);
 	et.info();
+	cout << delimiter;
 
-	RightTriangle rt(75, 105, Color::purple, 800, 200, 10);
+	RightTriangle rt(150, 95, Color::purple, 800, 200, 10);
 	rt.info();
 }
